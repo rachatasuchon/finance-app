@@ -104,7 +104,7 @@ export default function Forecast({ L }) {
             <button style={{ flex: 1 }} className={!isInc ? 'on' : ''} onClick={() => setF({ ...f, type: 'expense' })}>{L('รายจ่าย', 'Expense')}</button>
             <button style={{ flex: 1 }} className={isInc ? 'on' : ''} onClick={() => setF({ ...f, type: 'income' })}>{L('รายรับ', 'Income')}</button></div>}>
           <input type="date" aria-label={L('วันที่', 'Date')} value={f.date} onChange={(e) => setF({ ...f, date: e.target.value })} />
-          <div className="amt"><b className={isInc ? 'good' : 'bad'} style={{ fontSize: '2rem' }}>{isInc ? '↓' : '↑'}$</b>
+          <div className="amt"><b className={isInc ? 'good' : 'bad'} style={{ fontSize: '2rem' }}>{isInc ? '↓' : '↑'}฿</b>
             <input type="number" inputMode="decimal" min="0" placeholder="0" autoFocus value={f.amount} onChange={(e) => setF({ ...f, amount: e.target.value })} /></div>
           <button className="pick" onClick={() => setPicker(true)}><span>{f.cat || L('เลือกหมวดหมู่', 'Choose category')}</span><span>›</span></button>
           <input placeholder={L('เพิ่มโน้ต', 'Add a note')} value={f.note} onChange={(e) => setF({ ...f, note: e.target.value })} />
