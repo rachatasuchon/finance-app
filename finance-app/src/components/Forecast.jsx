@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLS, money, monthKey, dateStr, uid } from '../storage.js';
+import { useLS, baht, monthKey, dateStr, uid } from '../storage.js';
 import Sheet from './Sheet.jsx';
 
 export default function Forecast({ L }) {
@@ -62,18 +62,18 @@ export default function Forecast({ L }) {
     <section>
       <div className="row"><h2>{L('วางแผนการเงิน', 'Money plan')}</h2>
         <button className="iconBtn" aria-label={L('หมวดหมู่และงบ', 'Categories & budget')} onClick={() => setSheet('manage')}>⚙</button></div>
-      {overTotal && <div className="warn">{L(`ใช้จ่ายเกินงบรวมแล้ว (${money(expense)} / ${money(budget.total)})`, `Over total budget (${money(expense)} / ${money(budget.total)})`)}</div>}
-      {overCats.map((c) => <div className="warn" key={c}>{L(`หมวด "${c}" เกินงบ`, `"${c}" is over budget`)} ({money(byCat[c])} / {money(budget.cat[c])})</div>)}
+      {overTotal && <div className="warn">{L(`ใช้จ่ายเกินงบรวมแล้ว (${baht(expense)} / ${baht(budget.total)})`, `Over total budget (${baht(expense)} / ${baht(budget.total)})`)}</div>}
+      {overCats.map((c) => <div className="warn" key={c}>{L(`หมวด "${c}" เกินงบ`, `"${c}" is over budget`)} ({baht(byCat[c])} / {baht(budget.cat[c])})</div>)}
 
       <div className="card">
         <div className="mute">{L('ยอดเงินคงเหลือ (รายรับ − รายจ่ายทั้งหมด)', 'Balance (all income − all expenses)')}</div>
-        <div className={'big ' + (balance < 0 ? 'bad' : '')}>{money(balance)}</div>
-        <div className="row mute"><span>{L('เดือนนี้', 'This month')}: <span className="good">+{money(income)}</span></span><span className="bad">−{money(expense)}</span></div>
+        <div className={'big ' + (balance < 0 ? 'bad' : '')}>{baht(balance)}</div>
+        <div className="row mute"><span>{L('เดือนนี้', 'This month')}: <span className="good">+{baht(income)}</span></span><span className="bad">−{baht(expense)}</span></div>
       </div>
       <div className="card">
         <div className="mute">{L('คาดการณ์เงินเหลือสิ้นเดือน', 'Projected balance at month end')}</div>
-        <div className={'big ' + (projected < 0 ? 'bad' : 'good')}>{money(projected)}</div>
-        <div className="mute">{L('จากค่าเฉลี่ยรายจ่ายต่อวันของเดือนนี้', 'From this month\u2019s average daily spending')}: {money(avg)}</div>
+        <div className={'big ' + (projected < 0 ? 'bad' : 'good')}>{baht(projected)}</div>
+        <div className="mute">{L('จากค่าเฉลี่ยรายจ่ายต่อวันของเดือนนี้', 'From this month\u2019s average daily spending')}: {baht(avg)}</div>
       </div>
 
       <h3>{L('ใช้เงินกับอะไรมากที่สุด', 'Where the money goes')}</h3>
@@ -81,7 +81,7 @@ export default function Forecast({ L }) {
         {ranked.length === 0 && <span className="mute">{L('ยังไม่มีรายจ่ายเดือนนี้ กดปุ่ม + เพื่อเพิ่ม', 'No expenses this month. Tap + to add one')}</span>}
         {ranked.map(([c, v]) => (
           <div key={c} style={{ marginBottom: 8 }}>
-            <div className="row"><span>{c}</span><span>{money(v)} · {Math.round((v / expense) * 100)}%</span></div>
+            <div className="row"><span>{c}</span><span>{baht(v)} · {Math.round((v / expense) * 100)}%</span></div>
             <div className="bar"><i style={{ width: (v / ranked[0][1]) * 100 + '%' }} /></div>
           </div>
         ))}
@@ -91,7 +91,7 @@ export default function Forecast({ L }) {
       {mt.slice().sort((a, b) => b.date.localeCompare(a.date)).slice(0, 15).map((x) => (
         <div className="card row" key={x.id}>
           <div><div>{x.cat}</div><div className="mute">{x.date} {x.note}</div></div>
-          <div className="row"><b className={x.type === 'income' ? 'good' : 'bad'}>{x.type === 'income' ? '+' : '-'}{money(x.amount)}</b>
+          <div className="row"><b className={x.type === 'income' ? 'good' : 'bad'}>{x.type === 'income' ? '+' : '-'}{baht(x.amount)}</b>
             <button className="ghost" aria-label={L('ลบ', 'Remove')} onClick={() => setTx(tx.filter((y) => y.id !== x.id))}>✕</button></div>
         </div>
       ))}
@@ -139,7 +139,7 @@ export default function Forecast({ L }) {
           <h3>{L('รายการที่ทำซ้ำทุกเดือน', 'Monthly recurring')}</h3>
           {!rec.length && <div className="mute">{L('ยังไม่มี เปิดสวิตช์ "ทำซ้ำทุกเดือน" ตอนเพิ่มรายการ', 'None yet. Turn on "Repeat every month" when adding')}</div>}
           {rec.map((x) => (
-            <div className="row" key={x.id}><span>{x.cat} · {money(x.amount)} · {L('วันที่', 'day')} {x.day}</span>
+            <div className="row" key={x.id}><span>{x.cat} · {baht(x.amount)} · {L('วันที่', 'day')} {x.day}</span>
               <button className="ghost" aria-label={L('ลบ', 'Remove')} onClick={() => setRec(rec.filter((y) => y.id !== x.id))}>✕</button></div>
           ))}
         </Sheet>
