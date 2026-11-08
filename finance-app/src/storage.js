@@ -8,6 +8,7 @@ export function useLS(key, init) {
   return [v, setV];
 }
 export const money = (n) => (n < 0 ? '-$' : '$') + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+export const baht = (n) => (n < 0 ? '-฿' : '฿') + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const p2 = (n) => String(n).padStart(2, '0');
 export const monthKey = (d) => `${d.getFullYear()}-${p2(d.getMonth() + 1)}`;
 export const dateStr = (y, m, d) => `${y}-${p2(m + 1)}-${p2(d)}`;
